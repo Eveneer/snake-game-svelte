@@ -22,7 +22,7 @@
 	class="board-container"
 	style="max-width: {maxBoardSize + boardPadding * 2}px; padding: {boardPadding}px"
 >
-	<div class="board" style="width: {boardSize}px; height: {boardSize}px">
+	<div class="board">
 		{#each board.snake.body as part, index}
 			<SnakeBodyPart
 				{part}
@@ -52,5 +52,12 @@
 		border: 1px solid;
 		border-radius: 1%;
 		overflow: hidden;
+		width: 100%;
+	}
+
+	.board::before {
+		display: block;
+		content: '';
+		padding-top: 100%;
 	}
 </style>
