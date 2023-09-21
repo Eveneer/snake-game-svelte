@@ -1,5 +1,4 @@
 <script lang="ts">
-	import GCS from 'game-control-system/dist';
 	import { onMount } from 'svelte';
 	import GameBoard from './GameBoard.js';
 	import SnakeBodyPart from './SnakeBodyPart.svelte';
@@ -16,14 +15,6 @@
 	onMount(() => {
 		boardSize = Math.min(maxBoardSize, screenWidth - boardPadding * 2);
 	});
-
-	// const control = new GCS({
-	// 	progression: 'time-based',
-	// 	speed: 300,
-	// 	loseCheckCallback: yourFunctionToCheckIfPlayerLost,
-	// 	gameStateCallback: yourFunctionToReturnGameState,
-	// 	gameStateProgressionCallback: yourFunctionToProgressTheGameState
-	// });
 </script>
 
 <svelte:window bind:innerHeight={screenHeight} bind:innerWidth={screenWidth} />
