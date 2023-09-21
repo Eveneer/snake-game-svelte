@@ -1,3 +1,5 @@
+import type GCS from 'game-control-system/dist/index.js';
+
 export interface ComponentPositionType {
 	row: number;
 	col: number;
@@ -25,6 +27,7 @@ export interface FoodParticleType {
 }
 
 export interface GameBoardType {
+	control: GCS;
 	snake: SnakeType;
 	foodParticles: FoodParticleType[];
 }
@@ -35,3 +38,8 @@ export interface SnakeBodyPartGenerationVarType {
 }
 
 export type Constructor = new (...args: any[]) => {};
+
+export interface SnakeGameState {
+	snake: SnakeType;
+	foodParticles: FoodParticleType[];
+}
