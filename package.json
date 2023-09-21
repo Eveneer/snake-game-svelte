@@ -49,5 +49,8 @@
 	},
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"game-control-system": "^0.0.6"
+	}
 }
