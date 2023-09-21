@@ -7,8 +7,8 @@
 	const dimensionUnit = 100 / boardDimension;
 
 	$: top = `top: ${particle.position.row * dimensionUnit}%`;
-	$: left = `left: ${(particle.position.col % boardDimension) * dimensionUnit}%`;
-	$: height = `height: ${dimensionUnit}%; width: {dimensionUnit}%`;
+	$: left = `left: ${particle.position.col * dimensionUnit}%`;
+	$: height = `height: ${dimensionUnit}%; width: ${dimensionUnit}%`;
 	$: width = `width: ${dimensionUnit}%`;
 </script>
 
