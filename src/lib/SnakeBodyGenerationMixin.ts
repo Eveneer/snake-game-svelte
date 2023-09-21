@@ -1,4 +1,4 @@
-import { allDirections } from './constants.js';
+import { allDirections, boardDimension } from './constants.js';
 import type {
 	ComponentPositionType,
 	Constructor,
@@ -16,8 +16,8 @@ function SnakeBodyGenerationMixin<TBase extends Constructor>(Base: TBase) {
 				growthQueue: []
 			};
 			const position: ComponentPositionType = {
-				row: Math.floor(Math.random() * 18),
-				col: Math.floor(Math.random() * 18)
+				row: this.generateRandomCoordinatePoint(),
+				col: this.generateRandomCoordinatePoint()
 			};
 
 			snake.body.push(this.generateSnakeBodyPart({ position, classes: 'snake-head' }));
@@ -65,9 +65,12 @@ function SnakeBodyGenerationMixin<TBase extends Constructor>(Base: TBase) {
 			classes
 		}: SnakeBodyPartGenerationVarType) => SnakeBodyPartType = ({ position, classes }) => ({
 			position,
-			cardinality: position.row * 20 + position.col,
+			cardinality: position.row * boardDimension + position.col,
 			classes: classes ?? ''
 		});
+
+		generateRandomCoordinatePoint: () => number = () =>
+			Math.floor(Math.random() * (boardDimension - 6)) + 3;
 	};
 }
 
