@@ -1,9 +1,9 @@
 import GCS from 'game-control-system/dist/index.js';
 import type { GCSConstructorObjectType } from 'game-control-system/dist/types.d.ts';
-import FoodParticleGenerationMixin from './FoodParticleGenerationMixin.js';
-import SnakeBodyGenerationMixin from './SnakeBodyGenerationMixin.js';
+import FoodParticleGenerationMixin from './mixins/FoodParticleGenerationMixin.js';
+import SnakeBodyGenerationMixin from './mixins/SnakeBodyGenerationMixin.js';
 import { boardDimension } from './constants.js';
-import type { FoodParticleType, GameBoardType, SnakeGameState, SnakeType } from './types.js';
+import type { FoodParticleType, GameBoardType, SnakeGameState, SnakeType } from '../types.js';
 
 const GameBoardBase = FoodParticleGenerationMixin(SnakeBodyGenerationMixin(class {}));
 

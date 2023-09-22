@@ -1,5 +1,5 @@
-import { boardDimension } from './constants.js';
-import type { FoodParticleType, SnakeBodyPartType, Constructor } from './types.js';
+import { boardDimension } from '../constants.js';
+import type { FoodParticleType, SnakeBodyPartType, Constructor } from '../../types.js';
 
 function FoodParticleGenerationMixin<TBase extends Constructor>(Base: TBase) {
 	return class extends Base {

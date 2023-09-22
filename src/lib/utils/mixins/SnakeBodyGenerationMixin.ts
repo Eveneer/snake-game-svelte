@@ -1,11 +1,11 @@
-import { allDirections, boardDimension } from './constants.js';
+import { allDirections, boardDimension } from '../constants.js';
 import type {
 	ComponentPositionType,
 	Constructor,
 	SnakeBodyPartGenerationVarType,
 	SnakeBodyPartType,
 	SnakeType
-} from './types.js';
+} from '../../types.js';
 
 function SnakeBodyGenerationMixin<TBase extends Constructor>(Base: TBase) {
 	return class extends Base {

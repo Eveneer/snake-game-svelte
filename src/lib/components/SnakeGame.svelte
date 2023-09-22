@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import GameBoard from './GameBoard.js';
+	import GameBoard from '../utils/GameBoard.js';
 	import SnakeBodyPart from './SnakeBodyPart.svelte';
 	import FoodParticle from './FoodParticle.svelte';
 

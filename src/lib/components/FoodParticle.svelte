@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { boardDimension } from './constants.js';
-	import type { FoodParticleType } from './types.js';
+	import { boardDimension } from '../utils/constants.js';
+	import type { FoodParticleType } from '../types.ts';
 
 	export let particle: FoodParticleType;
 

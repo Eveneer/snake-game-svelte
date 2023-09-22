@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { boardDimension } from './constants.js';
-	import type { SnakeBodyPartType } from './types.js';
+	import type { SnakeBodyPartType } from '../types.ts';
+	import { boardDimension } from '../utils/constants.js';
 
 	export let part: SnakeBodyPartType;
 	export let partType: 'head' | 'tail' | 'body';
