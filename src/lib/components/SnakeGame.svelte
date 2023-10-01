@@ -3,9 +3,10 @@
 	import GameBoard from '../utils/GameBoard.js';
 	import SnakeBodyPart from './SnakeBodyPart.svelte';
 	import FoodParticle from './FoodParticle.svelte';
+	import { defaultBoardPadding, defaultMaxBoardSize } from '$lib/utils/constants.js';
 
-	export let maxBoardSize: number = 500;
-	export let boardPadding: number = 20;
+	export let maxBoardSize: number = defaultMaxBoardSize;
+	export let boardPadding: number = defaultBoardPadding;
 
 	let screenWidth: number;
 	let screenHeight: number;
