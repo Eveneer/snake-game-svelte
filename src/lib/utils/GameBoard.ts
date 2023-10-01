@@ -3,14 +3,24 @@ import type { GCSConstructorObjectType } from 'game-control-system/dist/types.d.
 import FoodParticleGenerationMixin from './mixins/FoodParticleGenerationMixin.js';
 import SnakeBodyGenerationMixin from './mixins/SnakeBodyGenerationMixin.js';
 import { boardDimension } from './constants.js';
-import type { FoodParticleType, GameBoardType, SnakeGameState, SnakeType } from '../types.js';
+import type {
+	DirectionType,
+	FoodParticleType,
+	GameBoardType,
+	SnakeGameState,
+	SnakeType
+} from '../types.js';
+import SnakeMovementMixin from './mixins/SnakeMovementAndGrowthMixin.js';
 
-const GameBoardBase = FoodParticleGenerationMixin(SnakeBodyGenerationMixin(class {}));
+const GameBoardBase = SnakeMovementMixin(
+	FoodParticleGenerationMixin(SnakeBodyGenerationMixin(class {}))
+);
 
 class GameBoard extends GameBoardBase implements GameBoardType {
 	control: GCS;
 	snake: SnakeType;
 	foodParticles: FoodParticleType[];
+	moveQueue: DirectionType[];
 
 	constructor() {
 		super();
@@ -18,6 +28,7 @@ class GameBoard extends GameBoardBase implements GameBoardType {
 		this.snake = this.generateSnake();
 		this.foodParticles = [this.generateFoodParticle(this.snake.body)];
 		this.control = new GCS(this.getGCSParam());
+		this.moveQueue = [];
 	}
 
 	hasLost: () => boolean = () =>
@@ -30,7 +41,10 @@ class GameBoard extends GameBoardBase implements GameBoardType {
 		foodParticles: this.foodParticles
 	});
 
-	progressGame: () => void = () => {};
+	progressGame: () => void = () => {
+		this.setSnakeMovementDirection(this.snake, this.moveQueue);
+		this.updateSpeed(this.control);
+	};
 
 	toggleGameMode: () => void = () => {
 		if (this.control.isScoreRateLimited()) {
