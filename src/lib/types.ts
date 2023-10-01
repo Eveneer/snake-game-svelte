@@ -30,6 +30,7 @@ export interface GameBoardType {
 	control: GCS;
 	snake: SnakeType;
 	foodParticles: FoodParticleType[];
+    moveQueue: DirectionType[];
 }
 
 export interface SnakeBodyPartGenerationVarType {
