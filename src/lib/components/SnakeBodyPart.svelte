@@ -9,7 +9,7 @@
 	const dimensionUnit = 100 / boardDimension;
 	$: top = `top: ${part.position.row * dimensionUnit}%`;
 	$: left = `left: ${(part.position.col % boardDimension) * dimensionUnit}%`;
-	$: height = `height: ${dimensionUnit}%; width: {dimensionUnit}%`;
+	$: height = `height: ${dimensionUnit}%;`;
 	$: width = `width: ${dimensionUnit}%`;
 	$: transformSpeed = `transition-duration: ${speed}ms`;
 </script>
