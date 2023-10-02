@@ -12,10 +12,19 @@
 	let screenHeight: number;
 	let boardSize: number;
 	let board: GameBoard = new GameBoard();
+	let iter: number = 0;
 
 	onMount(() => {
 		boardSize = Math.min(maxBoardSize, screenWidth - boardPadding * 2);
 	});
+
+	const intervalFunc = setInterval(() => {
+		if (!board.control.hasStarted()) {
+			board.control.startGame();
+		}
+		board.control.progressGame();
+		iter++;
+	}, board.control.getSpeed());
 </script>
 
 <svelte:window bind:innerHeight={screenHeight} bind:innerWidth={screenWidth} />
@@ -24,7 +33,7 @@
 	style="max-width: {maxBoardSize + boardPadding * 2}px; padding: {boardPadding}px"
 >
 	<div class="board">
-		{#each board.snake.body as part, index}
+		{#each board.snake.body as part, index (index)}
 			<SnakeBodyPart
 				{part}
 				partType={index === 0 ? 'head' : index === board.snake.body.length - 1 ? 'tail' : 'body'}
