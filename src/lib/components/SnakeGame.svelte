@@ -12,7 +12,6 @@
 	let screenHeight: number;
 	let boardSize: number;
 	let board: GameBoard = new GameBoard();
-	let iter: number = 0;
 
 	onMount(() => {
 		boardSize = Math.min(maxBoardSize, screenWidth - boardPadding * 2);
@@ -23,7 +22,7 @@
 			board.control.startGame();
 		}
 		board.control.progressGame();
-		iter++;
+		board = { ...board };
 	}, board.control.getSpeed());
 </script>
 
@@ -37,7 +36,7 @@
 			<SnakeBodyPart
 				{part}
 				partType={index === 0 ? 'head' : index === board.snake.body.length - 1 ? 'tail' : 'body'}
-				speed={300}
+				speed={board.control.getSpeed()}
 			/>
 		{/each}
 

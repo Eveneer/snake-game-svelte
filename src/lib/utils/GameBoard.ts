@@ -8,7 +8,8 @@ import type {
 	FoodParticleType,
 	GameBoardType,
 	SnakeGameState,
-	SnakeType
+	SnakeType,
+	SnakeBodyPartType
 } from '../types.js';
 import SnakeMovementMixin from './mixins/SnakeMovementAndGrowthMixin.js';
 
@@ -81,6 +82,8 @@ class GameBoard extends GameBoardBase implements GameBoardType {
 		gameStateCallback: this.gameStateCallback,
 		gameStateProgressionCallback: this.progressGame
 	});
+
+	getSnakeBody: () => SnakeBodyPartType[] = () => this.snake.body;
 }
 
 export default GameBoard;
