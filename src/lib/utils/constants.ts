@@ -14,6 +14,6 @@ export const boardDimension: number = 25;
 
 export const maxCoordinateValue: number = boardDimension - 1;
 
-export const defaultMaxBoardSize: number = 500;
+export const defaultMaxBoardSize: number = 450;
 
 export const defaultBoardPadding: number = 20;
