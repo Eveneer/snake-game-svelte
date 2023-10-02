@@ -42,8 +42,14 @@ class GameBoard extends GameBoardBase implements GameBoardType {
 	});
 
 	progressGame: () => void = () => {
-		this.setSnakeMovementDirection(this.snake, this.moveQueue);
+		this.setSnakeMovementDirection(this.snake, this.moveQueue, this.control);
+		this.moveSnake(this.snake);
+		this.consumeFoodParticle(this.snake, this.foodParticles, this.control);
 		this.updateSpeed(this.control);
+
+		if (this.foodParticles.length === 0) {
+			this.generateFoodParticle(this.snake.body);
+		}
 	};
 
 	toggleGameMode: () => void = () => {
