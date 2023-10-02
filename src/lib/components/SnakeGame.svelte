@@ -12,18 +12,19 @@
 	let screenHeight: number;
 	let boardSize: number;
 	let board: GameBoard = new GameBoard();
+    let gamePlayInterval: ReturnType<typeof setInterval>;
 
 	onMount(() => {
 		boardSize = Math.min(maxBoardSize, screenWidth - boardPadding * 2);
 	});
 
-	const intervalFunc = setInterval(() => {
-		if (!board.control.hasStarted()) {
-			board.control.startGame();
-		}
-		board.control.progressGame();
-		board = { ...board };
-	}, board.control.getSpeed());
+	// const intervalFunc = setInterval(() => {
+	// 	if (!board.control.hasStarted()) {
+	// 		board.control.startGame();
+	// 	}
+	// 	board.control.progressGame();
+	// 	board = { ...board };
+	// }, board.control.getSpeed());
 </script>
 
 <svelte:window bind:innerHeight={screenHeight} bind:innerWidth={screenWidth} />
