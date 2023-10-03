@@ -33,7 +33,8 @@ class GameBoard extends GameBoardBase implements GameBoardType {
 	}
 
 	hasLost: () => boolean = () =>
-		new Set<number>(this.snake.body.map((part) => part.cardinality)).size < this.snake.body.length;
+		new Set<number>(this.snake.body.map((part) => part.cardinality)).size <
+			this.snake.body.length || this.willSnakeOverflow(this.snake);
 
 	hasWon: () => boolean = () => this.snake.body.length === boardDimension * boardDimension;
 
@@ -43,14 +44,18 @@ class GameBoard extends GameBoardBase implements GameBoardType {
 	});
 
 	progressGame: () => void = () => {
-		this.setSnakeMovementDirection(this.snake, this.moveQueue, this.control);
-		this.moveSnake(this.snake);
-		this.consumeFoodParticle(this.snake, this.foodParticles, this.control);
-		this.updateSpeed(this.control);
+		if (!this.willSnakeOverflow(this.snake)) {
+			this.setSnakeMovementDirection(this.snake, this.moveQueue, this.control);
+			this.moveSnake(this.snake);
+			this.consumeFoodParticle(this.snake, this.foodParticles, this.control);
+			this.updateSpeed(this.control);
 
-		if (this.foodParticles.length === 0) {
-			this.generateFoodParticle(this.snake.body);
-		}
+			if (this.foodParticles.length === 0) {
+				this.generateFoodParticle(this.snake.body);
+			}
+		} else {
+            this.control.endGame();
+        }
 	};
 
 	toggleGameMode: () => void = () => {
