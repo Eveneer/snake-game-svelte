@@ -9,7 +9,7 @@
 	const dimensionUnit = 100 / boardDimension;
 	$: top = `top: ${part.position.row * dimensionUnit}%`;
 	$: left = `left: ${(part.position.col % boardDimension) * dimensionUnit}%`;
-	$: height = `height: ${dimensionUnit}%;`;
+	$: height = `height: ${dimensionUnit}%`;
 	$: width = `width: ${dimensionUnit}%`;
 	$: transformSpeed = `transition-duration: ${speed}ms`;
 </script>
@@ -21,7 +21,7 @@
 
 <style lang="postcss">
 	.snake {
-		z-index: 100;
+		z-index: 1;
 		position: absolute;
 		border-radius: 25%;
 		transition-property: all;

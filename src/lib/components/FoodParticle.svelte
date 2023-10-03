@@ -18,7 +18,7 @@
 
 <style lang="postcss">
 	.particle-container {
-		z-index: 100;
+		z-index: 1;
 		position: absolute;
 		overflow: hidden;
 		display: flex;
