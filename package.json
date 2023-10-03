@@ -51,6 +51,6 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"game-control-system": "^0.0.7"
+		"game-control-system": "^0.0.10"
 	}
 }
