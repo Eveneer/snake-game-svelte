@@ -9,6 +9,7 @@
 	import PlayIcon from './assets/PlayIcon.svelte';
 	import CloseIcon from './assets/CloseIcon.svelte';
 	import PauseIcon from './assets/PauseIcon.svelte';
+	import ResetIcon from './assets/ResetIcon.svelte';
 
 	export let maxBoardSize: number = defaultMaxBoardSize;
 	export let boardPadding: number = defaultBoardPadding;
@@ -20,6 +21,7 @@
 	let gamePlayInterval: ReturnType<typeof setInterval> | undefined;
 
 	$: menuIsShowing = board.control.getIsOptionsVisible();
+	$: isResettable = board.control.hasStarted() && board.control.hasGameEnded();
 	$: gameIsRunnig = board.control.isRunning();
 
 	onMount(() => {
@@ -38,7 +40,9 @@
 	};
 
 	const gamePlayToggle: () => void = () => {
-		if (board.control.hasStarted()) {
+		if (isResettable) {
+			resetGame();
+		} else if (board.control.hasStarted()) {
 			toggleOptions();
 		} else {
 			board.control.startGame();
@@ -49,27 +53,42 @@
 
 	const setGamePlayInterval = () => {
 		gamePlayInterval = setInterval(() => {
-			if (!board.control.hasStarted()) {
-				board.control.startGame();
-			}
+			if (board.control.hasGameEnded() || !board.control.isRunning())
+				setTimeout(() => {
+					clearGameInterval();
+				}, 100);
+
 			board.control.progressGame();
 			board = { ...board };
 		}, board.control.getSpeed());
 	};
 
 	const pauseGame = () => {
+		console.log('pause called');
 		board.control.pauseGame();
-		clearInterval(gamePlayInterval);
+		clearGameInterval();
 		board = { ...board };
 	};
 
 	const unpauseGame = () => {
+		console.log('unpause called');
 		setTimeout(() => {
 			board.control.unpauseGame();
 			board = { ...board };
 			setGamePlayInterval();
 		}, 300);
 		board = { ...board };
+	};
+
+	const resetGame = () => {
+		console.log('reset called');
+
+		board = new GameBoard();
+		clearGameInterval();
+	};
+
+	const clearGameInterval = () => {
+		if (gamePlayInterval) clearInterval(gamePlayInterval);
 	};
 </script>
 
@@ -79,7 +98,7 @@
 	style="max-width: {maxBoardSize + boardPadding * 2}px; padding: {boardPadding}px"
 >
 	<div class="flex flex-row justify-between">
-		<div>
+		<div class="h-[40px] overflow-hidden">
 			<IconButton onclickCallback={toggleOptions}>
 				<div
 					class="overflow-hidden transition-all !duration-[600ms]"
@@ -97,13 +116,22 @@
 			<IconButton onclickCallback={gamePlayToggle}>
 				<div
 					class="overflow-hidden transition-all !duration-[600ms]"
+					style="width: {isResettable ? 24 : 0}px; height: {isResettable ? 24 : 0}px;"
+				>
+					<ResetIcon size={24} />
+				</div>
+				<div
+					class="overflow-hidden transition-all !duration-[600ms]"
 					style="width: {gameIsRunnig ? 0 : 24}px; height: {gameIsRunnig ? 0 : 24}px;"
 				>
 					<PlayIcon size={24} />
 				</div>
 				<div
 					class="overflow-hidden transition-all !duration-[600ms]"
-					style="width: {!gameIsRunnig ? 0 : 24}px; height: {!gameIsRunnig ? 0 : 24}px;"
+					style="width: {!gameIsRunnig || isResettable ? 0 : 24}px; height: {!gameIsRunnig ||
+					isResettable
+						? 0
+						: 24}px;"
 				>
 					<PauseIcon size={24} />
 				</div>
@@ -124,7 +152,7 @@
 			<FoodParticle {particle} />
 		{/each}
 		<div
-			class="w-full bg-green-500/10 absolute z-10 top-0 left-0 transition-all !duration-[600ms]"
+			class="w-full bg-green-500 absolute z-10 top-0 left-0 transition-all !duration-[600ms]"
 			style="height: {board.control.getIsOptionsVisible() ? '100%' : '0%'};"
 		/>
 	</div>
