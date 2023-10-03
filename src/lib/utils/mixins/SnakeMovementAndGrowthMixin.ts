@@ -1,4 +1,10 @@
-import type { Constructor, DirectionType, SnakeType, FoodParticleType } from '$lib/types.js';
+import type {
+	Constructor,
+	DirectionType,
+	SnakeType,
+	FoodParticleType,
+	ComponentPositionType
+} from '$lib/types.js';
 import type GCS from 'game-control-system/dist/index.js';
 import {
 	boardDimension,
@@ -30,55 +36,44 @@ function SnakeMovementAndGrowthMixin<TBase extends Constructor>(Base: TBase) {
 			this.moveSnakeHead(snake);
 		};
 
-		moveSnakeHead: (snake: SnakeType) => void = (snake: SnakeType) => {
+		getSnakeHeadCoordinates: (snake: SnakeType) => ComponentPositionType = (snake: SnakeType) => {
 			let col: number = snake.body[0].position.col;
 			let row: number = snake.body[0].position.row;
-			let classes: string[] = ['snake-head', 'transition-all transform-gpu'];
 
 			switch (snake.movesTo) {
 				case rightDir:
 					col += 1;
 
-					if (col > maxCoordinateValue) {
-						col = 0;
-						classes[0] = 'transition-none';
-					}
-
 					break;
 				case leftDir:
 					col -= 1;
 
-					if (col < 0) {
-						col = maxCoordinateValue;
-						classes[0] = 'transition-none';
-					}
-
 					break;
 				case upDir:
-					row += 1;
-
-					if (row > maxCoordinateValue) {
-						row = 0;
-						classes[0] = 'transition-none';
-					}
+					row -= 1;
 
 					break;
 				case downDir:
-					row -= 1;
-
-					if (row < 0) {
-						row = maxCoordinateValue;
-						classes[0] = 'transition-none';
-					}
+					row += 1;
 
 					break;
 				default:
 					break;
 			}
 
-			snake.body[0].position = { row, col };
-			snake.body[0].cardinality = col + row * boardDimension;
-			snake.body[0].classes = classes.join(' ');
+			return { row, col };
+		};
+
+		willSnakeOverflow: (snake: SnakeType) => boolean = (snake: SnakeType) => {
+			const { row, col } = this.getSnakeHeadCoordinates(snake);
+
+			return row < 0 || row > maxCoordinateValue || col < 0 || col > maxCoordinateValue;
+		};
+
+		moveSnakeHead: (snake: SnakeType) => void = (snake: SnakeType) => {
+			snake.body[0].position = this.getSnakeHeadCoordinates(snake);
+			snake.body[0].cardinality =
+				snake.body[0].position.col + snake.body[0].position.row * boardDimension;
 		};
 
 		willSnakeGrow: (snake: SnakeType) => boolean = (snake: SnakeType) =>
